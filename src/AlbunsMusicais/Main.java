@@ -4,6 +4,8 @@ import AlbunsMusicais.Dominio.Album;
 import AlbunsMusicais.Dominio.Faixa;
 import AlbunsMusicais.Dominio.Genero;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -15,13 +17,12 @@ public class Main {
         Scanner input = new Scanner(System.in);
         int opcao = 0;
 
+        Album album = new Album();
 
         //Cadastro de Músicas
         //Cadastro de Compositor
         //Cadastro de Artista
         //Cadastro de Editora
-
-        //testando o commit
 
         //Cadastro de Gênero
 
@@ -33,69 +34,97 @@ public class Main {
         rock.setCodigo(2);
         rock.setDescricao("Rock");
 
+
         do{
+            System.out.println("|-------------Albuns Musicais---------------|");
+            System.out.println("| 1 - Cadastrar album                       |");
+            System.out.println("| 2 - Alterar album                         |");
+            System.out.println("| 3 - Visualizar album                      |");
+            System.out.println("| 4 - Excluir album                         |");
+            System.out.println("| 5 - Sair                                  |");
+            System.out.println("|-------------------------------------------|");
+
+            System.out.println("Digite uma das opções acima");
+            opcao = input.nextInt();
+
             switch(opcao){
                 case 1:
-                    Album thriller = new Album();
-                    System.out.println("Digite o nome do album: ");
-                    thriller.setNome(input.next());
-
-                    thriller.setData(new Date(1982, Calendar.NOVEMBER,30));
-                    //thriller.setNome("Thriller");
-                    thriller.setDuracao("42:16");
-                    thriller.setGenero(pop);
+                    casdastrarAlbuns(album);
                     break;
                 case 2:
+                    //Alterar album
+                    break;
+                case 3:
+                    visualizarAlbum(album);
+                    break;
+                case 4:
+                    //Excluir album
+                    break;
+                case 5:
                     System.out.println("Saindo do sistema");
+                    break;
                 default:
                     System.out.println("Opação invalida");
+                    break;
             }
-        }while(opcao < 2);
+        }while(opcao != 5);
+    }
 
+    public static Album casdastrarAlbuns(Album album){
+        Scanner input = new Scanner(System.in);
 
+        Genero pop = new Genero();
+        pop.setCodigo(1);
+        pop.setDescricao("Pop");
 
-
-
-        //Cadastro de Albuns
-        Album thriller = new Album();
         System.out.println("Digite o nome do album: ");
-        thriller.setNome(input.next());
+        album.setNome(input.next());
+        System.out.println("Digite a data de lançamento: ");
+        String data = album.setData(input.next());
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        try{
+            Date date = formatter.parse(data);
+        }
+        catch (ParseException e){
+            e.printStackTrace();
+        }
+        System.out.println("Digite a duração do album: ");
+        album.setDuracao(input.next());
+        //System.out.println("Digite o genero do album: ");
+        //album.setGenero(input.);
+        album.setGenero(pop);
 
-        thriller.setData(new Date(1982, Calendar.NOVEMBER,30));
-        //thriller.setNome("Thriller");
-        thriller.setDuracao("42:16");
-        thriller.setGenero(pop);
+        System.out.println("Faixas");
+        Faixa faixaAlbum = new Faixa();
+        System.out.println("Digite quantas faixas irao existir:");
+        int qtnFaixas = input.nextInt();
 
+        for(int i = 0; i < qtnFaixas; i++){
+            System.out.println("Digite o nome da faixa " + (i+1) + ":");
+            faixaAlbum.setNome(input.next());
+            System.out.println("Digite a duração da faixa " + (i+1) + ":");
+            faixaAlbum.setDuracao(input.next());
+            faixaAlbum.setGenero(pop);
 
-        //Cadastro de Faixa
-        Faixa theGirlsIsMine = new Faixa();
-        theGirlsIsMine.setNome("The Girls Is Mine");
-        theGirlsIsMine.setDuracao("3:42");
-        theGirlsIsMine.setAlbum(thriller);
-        theGirlsIsMine.setGenero(pop);
+            album.adicionarFaixas(faixaAlbum);
+        }
 
-        Faixa billieJean = new Faixa();
-        billieJean.setNome("Billie Jean");
-        billieJean.setAlbum(thriller);
-        billieJean.setDuracao("3:42");
-        billieJean.setGenero(pop);
+        return album;
+    }
 
-        thriller.adicionarFaixas(theGirlsIsMine);
-        thriller.adicionarFaixas(billieJean);
-
-
-        //Apresenta as informações do album cadastrado anteriormente
-        System.out.println("Nome: " + thriller.getNome());
-        System.out.println("Ano: " + thriller.getData());
-        System.out.println("Duração: " + thriller.getDuracao());
-        System.out.println("Gênero: " + thriller.getGenero().getDescricao());
+    public static Album visualizarAlbum(Album album){
+        System.out.println("Nome: " + album.getNome());
+        System.out.println("Ano: " + album.getData());
+        System.out.println("Duração: " + album.getDuracao());
+        System.out.println("Gênero: " + album.getGenero().getDescricao());
 
 
         //Retorna as faixas do album
-        List<Faixa> faixasThriller = thriller.retornaFaixasAlbum();
+        List<Faixa> faixasThriller = album.retornaFaixasAlbum();
         System.out.println("Faixas:");
-        for(Faixa faixa :  faixasThriller){
+        for(Faixa faixa :  faixasThriller) {
             System.out.println("Musica:" + faixa.getNome());
         }
+        return album;
     }
 }

@@ -5,7 +5,7 @@ import java.util.*;
 public class Album {
 
     private String nome;
-    private Date data;
+    private String data;
     private String duracao;
     private Genero genero;
     private Gravadora gravadora;
@@ -19,12 +19,13 @@ public class Album {
         this.nome = nome;
     }
 
-    public Date getData() {
+    public String getData() {
         return data;
     }
 
-    public void setData(Date data) {
+    public String setData(String data) {
         this.data = data;
+        return data;
     }
 
     public String getDuracao() {
