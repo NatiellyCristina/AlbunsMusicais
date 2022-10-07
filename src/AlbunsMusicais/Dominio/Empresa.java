@@ -1,6 +1,10 @@
 package AlbunsMusicais.Dominio;
 
 public class Empresa {
+
+    private  String CNPJ;
+    private  String razaoSocial;
+
     public String getCNPJ() {
         return CNPJ;
     }
@@ -17,6 +21,5 @@ public class Empresa {
         this.razaoSocial = razaoSocial;
     }
 
-    private  String CNPJ;
-    private  String razaoSocial;
+
 }

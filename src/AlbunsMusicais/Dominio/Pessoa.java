@@ -3,10 +3,20 @@ package AlbunsMusicais.Dominio;
 import java.sql.Date;
 
 public class Pessoa {
+
+    private  int codigo;
     private String nome;
     private String sobrenome;
     private Date data_nascimento;
     private  String nacionalidade;
+
+    public int getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(int codigo) {
+        this.codigo = codigo;
+    }
 
     public String getNome() {
         return nome;

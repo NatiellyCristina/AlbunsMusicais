@@ -1,18 +1,20 @@
 package AlbunsMusicais.Dominio;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class Faixa {
 
     private String nome;
     private Album album;
-    private  int duracao;
-    private String genero;
+    private  String duracao;
+    private Genero genero;
 
-    private Set<Artista> artistas = new HashSet<>();
+    private List<Artista> artistas = new ArrayList<Artista>();
 
-    private Set<Compositor> compositores = new HashSet<>();
+    private List<Compositor> compositores = new ArrayList<Compositor>();
 
     public String getNome() {
         return nome;
@@ -30,35 +32,36 @@ public class Faixa {
         this.album = album;
     }
 
-    public int getDuracao() {
+    public String getDuracao() {
         return duracao;
     }
 
-    public void setDuracao(int duracao) {
+    public void setDuracao(String duracao) {
         this.duracao = duracao;
     }
 
-    public String getGenero() {
+    public Genero getGenero() {
         return genero;
     }
 
-    public void setGenero(String genero) {
+    public void setGenero(Genero genero) {
         this.genero = genero;
     }
 
-    public Set<Artista> getArtistas() {
+    public List<Artista> getArtistas() {
         return artistas;
     }
 
-    public void setArtistas(Set<Artista> artistas) {
+    public void setArtistas(List<Artista> artistas) {
         this.artistas = artistas;
     }
 
-    public Set<Compositor> getCompositores() {
+    public List<Compositor> getCompositores() {
         return compositores;
     }
 
-    public void setCompositores(Set<Compositor> compositores) {
+    public void setCompositores(List<Compositor> compositores) {
         this.compositores = compositores;
     }
+
 }

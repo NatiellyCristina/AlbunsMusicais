@@ -1,48 +1,39 @@
 package AlbunsMusicais.Dominio;
 
 import javax.xml.crypto.Data;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class Album {
 
     private String nome;
-    private Data ano;
+    private Date data;
     private String duracao;
     private Genero genero;
     private Gravadora gravadora;
-    private Set<Faixa> faixas = new HashSet<>();
+    private List<Faixa> faixas = new ArrayList<>();
 
     public String getNome() {
         return nome;
     }
 
     public void setNome(String nome) {
-        nome = nome;
+        this.nome = nome;
     }
 
-    public Data getAno() {
-        return ano;
+    public Date getData() {
+        return data;
     }
 
-    public void setAno(Data ano) {
-        ano = ano;
+    public void setData(Date data) {
+        this.data = data;
     }
 
-    public String getTempoDuracao() {
+    public String getDuracao() {
         return duracao;
     }
 
-    public void setTempoDuracao(String tempoDuracao) {
-        this.duracao = tempoDuracao;
-    }
-
-    public Set<Faixa> getFaixas() {
-        return faixas;
-    }
-
-    public void setFaixas(Set<Faixa> faixas) {
-        this.faixas = faixas;
+    public void setDuracao(String duracao) {
+        this.duracao = duracao;
     }
 
     public Genero getGenero() {
@@ -60,4 +51,22 @@ public class Album {
     public void setGravadora(Gravadora gravadora) {
         this.gravadora = gravadora;
     }
+    public List<Faixa> getFaixas() {
+        return faixas;
+    }
+
+    public void setFaixas(List<Faixa> faixas) {
+        this.faixas = faixas;
+    }
+
+
+    public void adicionarFaixas(Faixa faixa){
+        this.faixas.add(faixa);
+    }
+    public List<Faixa> retornaFaixasAlbum(){
+        //Alterar para que retorne apenas as faixas dos albuns passado como parametro
+        return this.faixas;
+    }
+
+
 }
