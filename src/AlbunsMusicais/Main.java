@@ -16,7 +16,7 @@ public class Main {
         //Cadastro de Artista
         //Cadastro de Editora
 
-        //teste Commit
+        //testando o commit
 
         //Cadastro de Gênero
         Genero pop = new Genero();
