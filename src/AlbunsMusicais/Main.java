@@ -7,9 +7,14 @@ import AlbunsMusicais.Dominio.Genero;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+
+        Scanner input = new Scanner(System.in);
+        int opcao = 0;
+
 
         //Cadastro de Músicas
         //Cadastro de Compositor
@@ -19,6 +24,7 @@ public class Main {
         //testando o commit
 
         //Cadastro de Gênero
+
         Genero pop = new Genero();
         pop.setCodigo(1);
         pop.setDescricao("Pop");
@@ -27,12 +33,36 @@ public class Main {
         rock.setCodigo(2);
         rock.setDescricao("Rock");
 
+        do{
+            switch(opcao){
+                case 1:
+                    Album thriller = new Album();
+                    System.out.println("Digite o nome do album: ");
+                    thriller.setNome(input.next());
+
+                    thriller.setData(new Date(1982, Calendar.NOVEMBER,30));
+                    //thriller.setNome("Thriller");
+                    thriller.setDuracao("42:16");
+                    thriller.setGenero(pop);
+                    break;
+                case 2:
+                    System.out.println("Saindo do sistema");
+                default:
+                    System.out.println("Opação invalida");
+            }
+        }while(opcao < 2);
+
+
+
+
 
         //Cadastro de Albuns
         Album thriller = new Album();
+        System.out.println("Digite o nome do album: ");
+        thriller.setNome(input.next());
 
         thriller.setData(new Date(1982, Calendar.NOVEMBER,30));
-        thriller.setNome("Thriller");
+        //thriller.setNome("Thriller");
         thriller.setDuracao("42:16");
         thriller.setGenero(pop);
 
@@ -63,12 +93,9 @@ public class Main {
 
         //Retorna as faixas do album
         List<Faixa> faixasThriller = thriller.retornaFaixasAlbum();
-        System.out.println("Musicas:");
+        System.out.println("Faixas:");
         for(Faixa faixa :  faixasThriller){
-            System.out.println("Nome:" + faixa.getNome());
+            System.out.println("Musica:" + faixa.getNome());
         }
-
-
-
     }
 }

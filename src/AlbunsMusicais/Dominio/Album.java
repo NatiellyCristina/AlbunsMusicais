@@ -64,6 +64,7 @@ public class Album {
     }
     public List<Faixa> retornaFaixasAlbum(){
         //Alterar para que retorne apenas as faixas dos albuns passado como parametro
+        faixas.stream().count();
         return this.faixas;
     }
 
