@@ -16,6 +16,8 @@ public class Main {
         //Cadastro de Artista
         //Cadastro de Editora
 
+        //teste Commit
+
         //Cadastro de Gênero
         Genero pop = new Genero();
         pop.setCodigo(1);
