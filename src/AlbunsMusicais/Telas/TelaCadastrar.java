@@ -20,6 +20,7 @@ public class TelaCadastrar extends JFrame{
     private JTextField txtDuracaoFaixa;
     private JButton btnVisualizar;
     private JComboBox cbGenero;
+    private JButton btnVoltar;
     private JTextField txtGenero;
 
     //JComboBox<Genero> combo = new JComboBox<Genero>();
@@ -73,6 +74,12 @@ public class TelaCadastrar extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 album.visualizarAlbum(album, faixaAlbum);
+            }
+        });
+        btnVoltar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new TelaPrincipal().setVisible(true);
             }
         });
     }
