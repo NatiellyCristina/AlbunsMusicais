@@ -11,10 +11,21 @@ public class Genero {
         Codigo = codigo;
     }
     public String getDescricao() {
+
         return Descricao;
     }
     public void setDescricao(String descricao) {
-        Descricao = descricao;
+
+        String pop = "pop";
+        String rock = "rock";
+        String eletronica = "eletronica";
+
+        this.Descricao = descricao;
+    }
+
+    @Override
+    public String toString(){
+        return this.Descricao;
     }
 
 

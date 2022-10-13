@@ -70,15 +70,16 @@ public class Album {
         this.faixas = faixas;
     }
 
-    public Album cadastrarAlbum(Album album, Faixa faixaAlbum, String nome, String data, String duracao , String faixaNome, String faixaDuracao){
-        Genero pop = new Genero();
+    public Album cadastrarAlbum(Album album, Faixa faixaAlbum, String nome, String data, String duracao, Genero genero, String faixaNome, String faixaDuracao){
+        /*Genero pop = new Genero();
         pop.setCodigo(1);
-        pop.setDescricao("Pop");
+        pop.setDescricao("Pop");*/
 
         album.setNome(nome);
         album.setData(data);
         album.setDuracao(duracao);
-        album.setGenero(pop);
+        album.setGenero(genero);
+        //album.setGenero(pop);
         faixaAlbum.setNome(faixaNome);
         faixaAlbum.setDuracao(faixaDuracao);
 

@@ -19,23 +19,33 @@ public class TelaCadastrar extends JFrame{
     private JLabel lblFaixa;
     private JTextField txtDuracaoFaixa;
     private JButton btnVisualizar;
+    private JComboBox cbGenero;
     private JTextField txtGenero;
+
+    //JComboBox<Genero> combo = new JComboBox<Genero>();
 
     Album album = new Album();
     Faixa faixaAlbum = new Faixa();
 
     public TelaCadastrar(){
-        setContentPane(mainPanel);
-        setTitle("Cadastro");
-        setSize(500, 500);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setVisible(true);
+        configTela();
+
+        adicionarGenero();
+        /*cbGenero.addItem("Pop");
+        cbGenero.addItem("Rock");
+        cbGenero.addItem("Eletronica");
+
+        combo.addItem(genero.setDescricao("pop"));
+
+        combo.addItem("pop");*/
+
         btnCadastrar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String nome = txtNome.getText();
                 String data = txtData.getText();
                 String duracao = txtDuracao.getText();
+                Genero genero = (Genero) cbGenero.getSelectedItem();
                 String faixaNome = txtNomeFaixa.getText();
                 String faixaDuracao = txtDuracaoFaixa.getText();
 
@@ -44,7 +54,7 @@ public class TelaCadastrar extends JFrame{
                     return;
                 }
                 else {
-                    album.cadastrarAlbum(album, faixaAlbum, nome, data, duracao, faixaNome, faixaDuracao);
+                    album.cadastrarAlbum(album, faixaAlbum, nome, data, duracao, genero, faixaNome, faixaDuracao);
                 }
             }
         });
@@ -65,6 +75,33 @@ public class TelaCadastrar extends JFrame{
                 album.visualizarAlbum(album, faixaAlbum);
             }
         });
+    }
+
+    public void configTela(){
+        setContentPane(mainPanel);
+        setTitle("Cadastro");
+        setSize(500, 500);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setVisible(true);
+    }
+
+    public void adicionarGenero(){
+        Genero genero = new Genero();
+        Genero genero2 = new Genero();
+        Genero genero3 = new Genero();
+
+        genero.setCodigo(1);
+        genero.setDescricao("Pop");
+
+        genero2.setCodigo(2);
+        genero2.setDescricao("Rock");
+
+        genero3.setCodigo(3);
+        genero3.setDescricao("Eletronica");
+
+        cbGenero.addItem(genero);
+        cbGenero.addItem(genero2);
+        cbGenero.addItem(genero3);
     }
 
     public static void main(String[] args) {
