@@ -13,9 +13,10 @@ public class TelaPrincipal extends JFrame{
 
     public TelaPrincipal() {
         setContentPane(mainPanel);
-        setTitle("Cadastro");
+        setTitle("Menu");
         setSize(500, 500);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
         setVisible(true);
         btnTelaCadastrar.addActionListener(new ActionListener() {
             @Override

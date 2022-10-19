@@ -11,7 +11,7 @@ public class TelaAlterar extends JFrame{
 
     public TelaAlterar(){
         setContentPane(mainPanel);
-        setTitle("Cadastro");
+        setTitle("Alterar");
         setSize(500, 500);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);

@@ -32,13 +32,8 @@ public class TelaCadastrar extends JFrame{
         configTela();
 
         adicionarGenero();
-        /*cbGenero.addItem("Pop");
-        cbGenero.addItem("Rock");
-        cbGenero.addItem("Eletronica");
 
-        combo.addItem(genero.setDescricao("pop"));
-
-        combo.addItem("pop");*/
+        cbGenero.setSelectedIndex(-1);
 
         btnCadastrar.addActionListener(new ActionListener() {
             @Override
@@ -65,7 +60,7 @@ public class TelaCadastrar extends JFrame{
                 txtNome.setText("");
                 txtData.setText("");
                 txtDuracao.setText("");
-                txtGenero.setText("");
+                cbGenero.setSelectedIndex(-1);
                 txtNomeFaixa.setText("");
                 txtDuracaoFaixa.setText("");
             }
@@ -89,6 +84,7 @@ public class TelaCadastrar extends JFrame{
         setTitle("Cadastro");
         setSize(500, 500);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
         setVisible(true);
     }
 
