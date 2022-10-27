@@ -10,17 +10,25 @@ public class TelaAlterar extends JFrame{
     private JButton btnVoltar;
 
     public TelaAlterar(){
-        setContentPane(mainPanel);
-        setTitle("Alterar");
-        setSize(500, 500);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setVisible(true);
+        configurarTela();
         btnVoltar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new TelaPrincipal().setVisible(true);
+                TelaAlterar telaAlterar = new TelaAlterar();
+
+                telaAlterar.dispose();
+                setVisible(false);
             }
         });
+    }
+
+    public void configurarTela(){
+        setContentPane(mainPanel);
+        setTitle("Alterar");
+        setSize(500, 500);
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null);
+        setVisible(true);
     }
 
     public static void main(String[] args) {

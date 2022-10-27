@@ -13,22 +13,25 @@ public class TelaVisualizar extends JFrame{
     private JTextField txtDtNasc;
     private JTextField txtDuracao;
 
-    Album album = new Album();
-
     public TelaVisualizar(){
-        setContentPane(mainPanel);
-        setTitle("Visualizar");
-        setSize(500, 500);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
-        setVisible(true);
-
+        configurarTela();
         btnVoltar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new TelaPrincipal().setVisible(true);
+                TelaVisualizar telaVisualizar = new TelaVisualizar();
+
+                telaVisualizar.dispose();
+                setVisible(false);
             }
         });
+    }
+    public void configurarTela(){
+        setContentPane(mainPanel);
+        setTitle("Visualizar");
+        setSize(500, 500);
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null);
+        setVisible(true);
     }
     public static void main(String[] args) {
         TelaVisualizar telaVisualizar = new TelaVisualizar();

@@ -5,12 +5,13 @@ import AlbunsMusicais.Dominio.Faixa;
 import AlbunsMusicais.Dominio.Genero;
 
 import javax.swing.*;
+import javax.swing.text.MaskFormatter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
 
-public class TelaCadastrar extends JFrame{
+public class TelaCadastrar extends JFrame {
     private JTextField txtNome;
-    private JTextField txtData;
     private JTextField txtDuracao;
     private JButton btnCadastrar;
     private JButton btnLimpar;
@@ -21,14 +22,12 @@ public class TelaCadastrar extends JFrame{
     private JButton btnVisualizar;
     private JComboBox cbGenero;
     private JButton btnVoltar;
-    private JTextField txtGenero;
-
-    //JComboBox<Genero> combo = new JComboBox<Genero>();
+    private JFormattedTextField txtAno;
 
     Album album = new Album();
     Faixa faixaAlbum = new Faixa();
 
-    public TelaCadastrar(){
+    public TelaCadastrar() {
         configTela();
 
         adicionarGenero();
@@ -39,17 +38,16 @@ public class TelaCadastrar extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 String nome = txtNome.getText();
-                String data = txtData.getText();
+                String data = txtAno.getText();
                 String duracao = txtDuracao.getText();
                 Genero genero = (Genero) cbGenero.getSelectedItem();
                 String faixaNome = txtNomeFaixa.getText();
                 String faixaDuracao = txtDuracaoFaixa.getText();
 
-                if(nome.isEmpty() || data.isEmpty() || duracao.isEmpty() || faixaNome.isEmpty() || faixaDuracao.isEmpty()){
+                if (nome.isEmpty() || data.isEmpty() || duracao.isEmpty() || faixaNome.isEmpty() || faixaDuracao.isEmpty()) {
                     JOptionPane.showMessageDialog(btnCadastrar, "Não é possivel deixar caixas em branco", "Tente novamente", JOptionPane.ERROR_MESSAGE);
                     return;
-                }
-                else {
+                } else {
                     album.cadastrarAlbum(album, faixaAlbum, nome, data, duracao, genero, faixaNome, faixaDuracao);
                 }
             }
@@ -58,7 +56,7 @@ public class TelaCadastrar extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 txtNome.setText("");
-                txtData.setText("");
+                txtAno.setText("");
                 txtDuracao.setText("");
                 cbGenero.setSelectedIndex(-1);
                 txtNomeFaixa.setText("");
@@ -74,21 +72,24 @@ public class TelaCadastrar extends JFrame{
         btnVoltar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new TelaPrincipal().setVisible(true);
+                TelaCadastrar telaCadastrar = new TelaCadastrar();
+
+                telaCadastrar.dispose();
+                setVisible(false);
             }
         });
     }
 
-    public void configTela(){
+    public void configTela() {
         setContentPane(mainPanel);
         setTitle("Cadastro");
         setSize(500, 500);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(true);
     }
 
-    public void adicionarGenero(){
+    public void adicionarGenero() {
         Genero genero = new Genero();
         Genero genero2 = new Genero();
         Genero genero3 = new Genero();
@@ -106,6 +107,7 @@ public class TelaCadastrar extends JFrame{
         cbGenero.addItem(genero2);
         cbGenero.addItem(genero3);
     }
+
 
     public static void main(String[] args) {
         TelaCadastrar telaCadastrar = new TelaCadastrar();

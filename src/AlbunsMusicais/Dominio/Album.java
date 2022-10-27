@@ -27,7 +27,7 @@ public class Album {
         return data;
     }
 
-    public String setData(String data) {
+    public void setData(String data) {
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         try{
             Date date = formatter.parse(data);
@@ -36,7 +36,6 @@ public class Album {
             e.printStackTrace();
         }
         this.data = data;
-        return data;
     }
 
     public String getDuracao() {

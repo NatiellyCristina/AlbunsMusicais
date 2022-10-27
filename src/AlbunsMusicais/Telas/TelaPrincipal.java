@@ -12,12 +12,7 @@ public class TelaPrincipal extends JFrame{
     private JPanel mainPanel;
 
     public TelaPrincipal() {
-        setContentPane(mainPanel);
-        setTitle("Menu");
-        setSize(500, 500);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
-        setVisible(true);
+        configurarTela();
         btnTelaCadastrar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -42,6 +37,15 @@ public class TelaPrincipal extends JFrame{
                 new TelaDeletar().setVisible(true);
             }
         });
+    }
+
+    public void configurarTela(){
+        setContentPane(mainPanel);
+        setTitle("Menu");
+        setSize(500, 500);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+        setVisible(true);
     }
 
     public static void main(String[] args) {
