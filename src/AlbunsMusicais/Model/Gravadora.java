@@ -1,4 +1,4 @@
-package AlbunsMusicais.Dominio;
+package AlbunsMusicais.Model;
 
 public class Gravadora {
 

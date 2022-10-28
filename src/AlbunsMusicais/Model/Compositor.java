@@ -1,14 +1,12 @@
-package AlbunsMusicais.Dominio;
+package AlbunsMusicais.Model;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Artista extends Pessoa {
+public class Compositor extends  Pessoa{
 
     private  int codigo;
-    private List<Genero> generos = new ArrayList<>();
-
-
+    private List<Genero> generos = new ArrayList<Genero>();
     public int getCodigo() {
         return codigo;
     }
@@ -24,4 +22,7 @@ public class Artista extends Pessoa {
     public void setGeneros(List<Genero> generos) {
         this.generos = generos;
     }
+
+
+
 }

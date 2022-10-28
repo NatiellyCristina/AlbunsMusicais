@@ -1,4 +1,4 @@
-package AlbunsMusicais.Dominio;
+package AlbunsMusicais.Model;
 
 import java.util.ArrayList;
 import java.util.List;

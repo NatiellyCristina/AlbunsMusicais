@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="AlbunsMusicais.Telas.TelaCadastrar">
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="AlbunsMusicais.View.TelaCadastrar">
   <grid id="27dc6" binding="mainPanel" layout-manager="GridLayoutManager" row-count="8" column-count="7" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
@@ -8,7 +8,7 @@
     <properties/>
     <border type="none"/>
     <children>
-      <component id="6b960" class="javax.swing.JLabel">
+      <component id="6b960" class="javax.swing.JLabel" binding="lblNome">
         <constraints>
           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
@@ -29,7 +29,7 @@
         </constraints>
         <properties/>
       </component>
-      <component id="d799b" class="javax.swing.JLabel">
+      <component id="d799b" class="javax.swing.JLabel" binding="lblAno">
         <constraints>
           <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
@@ -37,21 +37,13 @@
           <text value="Ano"/>
         </properties>
       </component>
-      <component id="ca7b3" class="javax.swing.JLabel">
+      <component id="ca7b3" class="javax.swing.JLabel" binding="lblDuracao">
         <constraints>
           <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <text value="Duração"/>
         </properties>
-      </component>
-      <component id="1606b" class="javax.swing.JTextField" binding="txtDuracao">
-        <constraints>
-          <grid row="2" column="1" row-span="1" col-span="6" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-            <preferred-size width="150" height="-1"/>
-          </grid>
-        </constraints>
-        <properties/>
       </component>
       <component id="35410" class="javax.swing.JLabel" binding="lblFaixa">
         <constraints>
@@ -76,10 +68,10 @@
           <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Duração da Faixa"/>
+          <text value="lblDurFaixa"/>
         </properties>
       </component>
-      <component id="fb4a2" class="javax.swing.JTextField" binding="txtDuracaoFaixa">
+      <component id="68401" class="javax.swing.JFormattedTextField" binding="txtDuracaoFaixa">
         <constraints>
           <grid row="5" column="1" row-span="1" col-span="6" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
@@ -87,7 +79,7 @@
         </constraints>
         <properties/>
       </component>
-      <component id="8902a" class="javax.swing.JLabel">
+      <component id="8902a" class="javax.swing.JLabel" binding="lblGenero">
         <constraints>
           <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
@@ -127,7 +119,7 @@
       </component>
       <component id="b60c1" class="javax.swing.JButton" binding="btnVoltar">
         <constraints>
-          <grid row="7" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <grid row="7" column="4" row-span="1" col-span="3" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <text value="Voltar"/>
@@ -139,7 +131,19 @@
             <preferred-size width="150" height="-1"/>
           </grid>
         </constraints>
-        <properties/>
+        <properties>
+          <editable value="true"/>
+        </properties>
+      </component>
+      <component id="af6ad" class="javax.swing.JFormattedTextField" binding="txtDuracao">
+        <constraints>
+          <grid row="2" column="1" row-span="1" col-span="6" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="-1"/>
+          </grid>
+        </constraints>
+        <properties>
+          <text value=""/>
+        </properties>
       </component>
     </children>
   </grid>

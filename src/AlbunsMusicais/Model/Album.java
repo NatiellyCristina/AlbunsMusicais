@@ -1,7 +1,6 @@
-package AlbunsMusicais.Dominio;
+package AlbunsMusicais.Model;
 
-import AlbunsMusicais.Telas.TelaCadastrar;
-
+import javax.swing.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -27,14 +26,7 @@ public class Album {
         return data;
     }
 
-    public void setData(String data) {
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-        try{
-            Date date = formatter.parse(data);
-        }
-        catch (ParseException e){
-            e.printStackTrace();
-        }
+    public void setData(String data){
         this.data = data;
     }
 
@@ -70,15 +62,10 @@ public class Album {
     }
 
     public Album cadastrarAlbum(Album album, Faixa faixaAlbum, String nome, String data, String duracao, Genero genero, String faixaNome, String faixaDuracao){
-        /*Genero pop = new Genero();
-        pop.setCodigo(1);
-        pop.setDescricao("Pop");*/
-
         album.setNome(nome);
         album.setData(data);
         album.setDuracao(duracao);
         album.setGenero(genero);
-        //album.setGenero(pop);
         faixaAlbum.setNome(faixaNome);
         faixaAlbum.setDuracao(faixaDuracao);
 
@@ -86,7 +73,6 @@ public class Album {
 
         return album;
     }
-
     public void adicionarFaixas(Faixa faixa){
         this.faixas.add(faixa);
     }

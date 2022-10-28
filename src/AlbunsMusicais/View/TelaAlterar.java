@@ -1,22 +1,22 @@
-package AlbunsMusicais.Telas;
+package AlbunsMusicais.View;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class TelaDeletar extends JFrame{
-    private JLabel lblDeletar;
+public class TelaAlterar extends JFrame{
+    private JLabel lblAlterar;
     private JPanel mainPanel;
     private JButton btnVoltar;
 
-    public TelaDeletar(){
+    public TelaAlterar(){
         configurarTela();
         btnVoltar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                TelaDeletar telaDeletar = new TelaDeletar();
+                TelaAlterar telaAlterar = new TelaAlterar();
 
-                telaDeletar.dispose();
+                telaAlterar.dispose();
                 setVisible(false);
             }
         });
@@ -24,7 +24,7 @@ public class TelaDeletar extends JFrame{
 
     public void configurarTela(){
         setContentPane(mainPanel);
-        setTitle("Deletar");
+        setTitle("Alterar");
         setSize(500, 500);
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -32,6 +32,6 @@ public class TelaDeletar extends JFrame{
     }
 
     public static void main(String[] args) {
-        TelaDeletar telaDeletar = new TelaDeletar();
+        TelaAlterar telaAlterar = new TelaAlterar();
     }
 }
