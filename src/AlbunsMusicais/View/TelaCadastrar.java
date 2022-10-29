@@ -3,6 +3,8 @@ package AlbunsMusicais.View;
 import AlbunsMusicais.Model.Album;
 import AlbunsMusicais.Model.Faixa;
 import AlbunsMusicais.Model.Genero;
+import service.AlbumService;
+import service.IAlbumService;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -50,6 +52,8 @@ public class TelaCadastrar extends JFrame {
     }
     Album album = new Album();
     Faixa faixaAlbum = new Faixa();
+
+    private int idAux = 0;
     public TelaCadastrar() {
         configTela();
 
@@ -57,23 +61,22 @@ public class TelaCadastrar extends JFrame {
 
         cbGenero.setSelectedIndex(-1);
 
+        IAlbumService IAS = getAlbumService();
+
         btnCadastrar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String nome = txtNome.getText();
-                String data = txtAno.getText();
-                String duracao = txtDuracao.getText();
-                Genero genero = (Genero) cbGenero.getSelectedItem();
-                String faixaNome = txtNomeFaixa.getText();
-                String faixaDuracao = txtDuracaoFaixa.getText();
+                Album album = getAlbum();
 
-                if (nome.isEmpty() || data.isEmpty() || duracao.isEmpty() || faixaNome.isEmpty() || faixaDuracao.isEmpty()) {
+                IAS.inserirAlbum(album);
+
+                /*if (nome.isEmpty() || data.isEmpty() || duracao.isEmpty() || faixaNome.isEmpty() || faixaDuracao.isEmpty()) {
                     JOptionPane.showMessageDialog(btnCadastrar, "Não é possivel deixar caixas em branco", "Tente novamente", JOptionPane.ERROR_MESSAGE);
                     return ;
                 }else{
                     album.cadastrarAlbum(album, faixaAlbum, nome, data, duracao, genero, faixaNome, faixaDuracao);
                     JOptionPane.showMessageDialog(btnCadastrar, "Cadastro realizado com sucesso!!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-                }
+                }*/
             }
         });
         btnLimpar.addActionListener(new ActionListener() {
@@ -90,13 +93,25 @@ public class TelaCadastrar extends JFrame {
         btnVisualizar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                TelaCadastrar telaCadastrar = new TelaCadastrar();
+                /*TelaCadastrar telaCadastrar = new TelaCadastrar();
                 new TelaVisualizar().setVisible(true);
 
                 telaCadastrar.dispose();
-                setVisible(false);
+                setVisible(false);*/
 
-                album.visualizarAlbum(album, faixaAlbum);
+                String resposta = "";
+
+                for(Album albumCont : IAS.listarTodosAlbuns()){
+                    System.out.println("Id: " + albumCont.getId());
+                    System.out.println("nome: " + albumCont.getNome());
+                    System.out.println("data: " + albumCont.getData());
+                    System.out.println("duração: " + albumCont.getDuracao());
+                    System.out.println("Genero: " + albumCont.getGenero().getDescricao());
+                    System.out.println("nome fiaxa: " + albumCont.getNome());
+                    System.out.println("duração faixa: " + albumCont.getDuracao());
+                }
+
+                //album.listarTodosAlbuns();
             }
         });
         btnVoltar.addActionListener(new ActionListener() {
@@ -136,6 +151,40 @@ public class TelaCadastrar extends JFrame {
         cbGenero.addItem(genero);
         cbGenero.addItem(genero2);
         cbGenero.addItem(genero3);
+    }
+
+    public Album getAlbum(){
+        Album album = new Album();
+        Faixa faixa = new Faixa();
+
+        String nome = txtNome.getText();
+        String data = txtAno.getText();
+        String duracao = txtDuracao.getText();
+        Genero genero = (Genero) cbGenero.getSelectedItem();
+        String faixaNome = txtNomeFaixa.getText();
+        String faixaDuracao = txtDuracaoFaixa.getText();
+
+        if (nome.isEmpty() || data.isEmpty() || duracao.isEmpty() || faixaNome.isEmpty() || faixaDuracao.isEmpty()) {
+            JOptionPane.showMessageDialog(btnCadastrar, "Não é possivel deixar caixas em branco", "Tente novamente", JOptionPane.ERROR_MESSAGE);
+            return null;
+        }
+        else{
+            album.setNome(nome);
+            album.setData(data);
+            album.setDuracao(duracao);
+            album.setGenero(genero);
+            faixa.setNome(faixaNome);
+            faixa.setDuracao(faixaDuracao);
+
+            JOptionPane.showMessageDialog(btnCadastrar, "Cadastro Realizado com sucesso!!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+
+            return album;
+        }
+    }
+
+
+    public static IAlbumService getAlbumService(){
+        return new AlbumService();
     }
 
     public static void main(String[] args) {
