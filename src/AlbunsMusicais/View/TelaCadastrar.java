@@ -4,14 +4,23 @@ import AlbunsMusicais.Model.Album;
 import AlbunsMusicais.Model.Faixa;
 import AlbunsMusicais.Model.Genero;
 import service.AlbumService;
+import service.FaixaService;
 import service.IAlbumService;
+import service.IFaixaService;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.text.ParseException;
+import java.util.List;
 
 public class TelaCadastrar extends JFrame {
+    Album album = new Album();
+    Faixa faixaAlbum = new Faixa();
+    AlbumService albumService = new AlbumService();
     Mascaras mascaras = new Mascaras();
     private JTextField txtNome;
     private JFormattedTextField txtDuracao;
@@ -50,33 +59,40 @@ public class TelaCadastrar extends JFrame {
             throw new RuntimeException(e);
         }
     }
-    Album album = new Album();
-    Faixa faixaAlbum = new Faixa();
+    private JLabel lblDurFaixa;
+    private JTable tblAlbuns;
+    private JButton btnExcluir;
+    private JButton btnAtualizar;
+
+    IAlbumService IAS = getAlbumService();
+    IFaixaService IFS = getFaixaService();
 
     private int idAux = 0;
     public TelaCadastrar() {
         configTela();
 
+        criarTabela();
+
+
         adicionarGenero();
 
         cbGenero.setSelectedIndex(-1);
-
-        IAlbumService IAS = getAlbumService();
 
         btnCadastrar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Album album = getAlbum();
+                //Faixa faixa = getFaixa();
 
                 IAS.inserirAlbum(album);
+                //IFS.inserirFaixa(faixa);
 
-                /*if (nome.isEmpty() || data.isEmpty() || duracao.isEmpty() || faixaNome.isEmpty() || faixaDuracao.isEmpty()) {
-                    JOptionPane.showMessageDialog(btnCadastrar, "Não é possivel deixar caixas em branco", "Tente novamente", JOptionPane.ERROR_MESSAGE);
-                    return ;
-                }else{
-                    album.cadastrarAlbum(album, faixaAlbum, nome, data, duracao, genero, faixaNome, faixaDuracao);
-                    JOptionPane.showMessageDialog(btnCadastrar, "Cadastro realizado com sucesso!!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-                }*/
+                txtNome.setText("");
+                txtAno.setText("");
+                txtDuracao.setText("");
+                cbGenero.setSelectedIndex(-1);
+                txtNomeFaixa.setText("");
+                txtDuracaoFaixa.setText("");
             }
         });
         btnLimpar.addActionListener(new ActionListener() {
@@ -93,34 +109,66 @@ public class TelaCadastrar extends JFrame {
         btnVisualizar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                /*TelaCadastrar telaCadastrar = new TelaCadastrar();
-                new TelaVisualizar().setVisible(true);
+                DefaultTableModel modelo = (DefaultTableModel) tblAlbuns.getModel();
+                modelo.setNumRows(0);
 
-                telaCadastrar.dispose();
-                setVisible(false);*/
-
-                String resposta = "";
+                /*while (modelo.getRowCount() > 0) {
+                    modelo.removeRow(0);
+                }*/
 
                 for(Album albumCont : IAS.listarTodosAlbuns()){
-                    System.out.println("Id: " + albumCont.getId());
-                    System.out.println("nome: " + albumCont.getNome());
-                    System.out.println("data: " + albumCont.getData());
-                    System.out.println("duração: " + albumCont.getDuracao());
-                    System.out.println("Genero: " + albumCont.getGenero().getDescricao());
-                    System.out.println("nome fiaxa: " + albumCont.getNome());
-                    System.out.println("duração faixa: " + albumCont.getDuracao());
+                    //for(Faixa faixaCont: IFS.listarTodasFaixas()) {
+                        modelo.addRow(new Object[]{
+                                albumCont.getNome(), albumCont.getData(), albumCont.getDuracao(), albumCont.getGenero(), //faixaCont.getNome(), faixaCont.getDuracao()
+                        });
+                    //}
                 }
-
-                //album.listarTodosAlbuns();
             }
         });
-        btnVoltar.addActionListener(new ActionListener() {
+        btnExcluir.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                TelaCadastrar telaCadastrar = new TelaCadastrar();
+                int posicao = tblAlbuns.getSelectedRow();
 
-                telaCadastrar.dispose();
-                setVisible(false);
+                IAS.excluirAlbum(posicao);
+
+                DefaultTableModel modelo = (DefaultTableModel) tblAlbuns.getModel();
+                modelo.setNumRows(0);
+                for(Album albumCont : IAS.listarTodosAlbuns()){
+                    modelo.addRow(new Object[]{
+                            albumCont.getNome(), albumCont.getData(), albumCont.getDuracao(), albumCont.getGenero()
+                    });
+                }
+            }
+        });
+        btnAtualizar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                int posicao = tblAlbuns.getSelectedRow();
+
+                AlbumService albumService = new AlbumService();
+
+                albumService.albuns.get(posicao).setNome(txtNome.getText());
+                albumService.albuns.get(posicao).setData(txtAno.getText());
+                albumService.albuns.get(posicao).setDuracao(txtDuracao.getText());
+                albumService.albuns.get(posicao).setGenero((Genero)cbGenero.getSelectedItem());
+
+                DefaultTableModel modelo = (DefaultTableModel) tblAlbuns.getModel();
+                modelo.setNumRows(0);
+
+                for(Album albumCont : IAS.listarTodosAlbuns()){
+                    modelo.addRow(new Object[]{
+                            albumCont.getNome(), albumCont.getData(), albumCont.getDuracao(), albumCont.getGenero()
+                    });
+                }
+            }
+        });
+        tblAlbuns.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                preencherCampos();
             }
         });
     }
@@ -153,18 +201,26 @@ public class TelaCadastrar extends JFrame {
         cbGenero.addItem(genero3);
     }
 
+    private void preencherCampos(){
+        int posicao = tblAlbuns.getSelectedRow();
+
+        txtNome.setText(tblAlbuns.getModel().getValueAt(posicao, 0).toString());
+        txtAno.setText(tblAlbuns.getModel().getValueAt(posicao, 1).toString());
+        txtDuracao.setText(tblAlbuns.getModel().getValueAt(posicao, 2).toString());
+        /*txtNomeFaixa.setText(tblAlbuns.getModel().getValueAt(posicao, 4).toString());
+        txtDuracaoFaixa.setText(tblAlbuns.getModel().getValueAt(posicao, 5).toString());*/
+    }
+
     public Album getAlbum(){
+
         Album album = new Album();
-        Faixa faixa = new Faixa();
 
         String nome = txtNome.getText();
         String data = txtAno.getText();
         String duracao = txtDuracao.getText();
         Genero genero = (Genero) cbGenero.getSelectedItem();
-        String faixaNome = txtNomeFaixa.getText();
-        String faixaDuracao = txtDuracaoFaixa.getText();
 
-        if (nome.isEmpty() || data.isEmpty() || duracao.isEmpty() || faixaNome.isEmpty() || faixaDuracao.isEmpty()) {
+        if (nome.isEmpty() || data.isEmpty() || duracao.isEmpty()) {
             JOptionPane.showMessageDialog(btnCadastrar, "Não é possivel deixar caixas em branco", "Tente novamente", JOptionPane.ERROR_MESSAGE);
             return null;
         }
@@ -173,18 +229,44 @@ public class TelaCadastrar extends JFrame {
             album.setData(data);
             album.setDuracao(duracao);
             album.setGenero(genero);
-            faixa.setNome(faixaNome);
-            faixa.setDuracao(faixaDuracao);
-
-            JOptionPane.showMessageDialog(btnCadastrar, "Cadastro Realizado com sucesso!!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
 
             return album;
         }
     }
 
+    /*public Faixa getFaixa(){
+        Faixa faixa = new Faixa();
+
+        String faixaNome = txtNomeFaixa.getText();
+        String faixaDuracao = txtDuracaoFaixa.getText();
+
+        if (faixaNome.isEmpty() || faixaDuracao.isEmpty()) {
+            JOptionPane.showMessageDialog(btnCadastrar, "Não é possivel deixar caixas em branco", "Tente novamente", JOptionPane.ERROR_MESSAGE);
+            return null;
+        }
+        else{
+            faixa.setNome(faixaNome);
+            faixa.setDuracao(faixaDuracao);
+
+            JOptionPane.showMessageDialog(btnCadastrar, "Cadastro Realizado com sucesso!!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+
+            return faixa;
+        }
+    }*/
+
+    private void criarTabela(){
+        tblAlbuns.setModel(new DefaultTableModel(
+                null,
+                new String[]{"Nome", "Data", "Duração", "Genero"}
+        ));
+    }
 
     public static IAlbumService getAlbumService(){
         return new AlbumService();
+    }
+
+    private static  IFaixaService getFaixaService(){
+        return new FaixaService();
     }
 
     public static void main(String[] args) {

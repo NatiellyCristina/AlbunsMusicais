@@ -10,7 +10,7 @@ public interface IAlbumService {
 
     public void alterarAlbum(Album album);
 
-    public void excluirAlbum(Album album);
+    public void excluirAlbum(int album);
 
     public void pesquisarAlbumId(int id);
 

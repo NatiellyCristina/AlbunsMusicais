@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AlbumService implements IAlbumService{
-    private List<Album> albuns;
+    public List<Album> albuns;
 
     private int idAux = 0;
 
@@ -28,8 +28,8 @@ public class AlbumService implements IAlbumService{
     }
 
     @Override
-    public void excluirAlbum(Album album) {
-
+    public void excluirAlbum(int album) {
+        this.albuns.remove(album);
     }
 
     @Override

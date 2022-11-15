@@ -69,20 +69,6 @@ public class Album {
         this.faixas = faixas;
     }
 
-   /* public Album cadastrarAlbum(Album album, Faixa faixaAlbum, String nome, String data, String duracao, Genero genero, String faixaNome, String faixaDuracao){
-        album.setNome(nome);
-        album.setData(data);
-        album.setDuracao(duracao);
-        album.setGenero(genero);
-        faixaAlbum.setNome(faixaNome);
-        faixaAlbum.setDuracao(faixaDuracao);
-
-        System.out.println("Cadastro Realizado!!");
-
-        this.albuns.add(album);
-
-        return album;
-    }*/
     public void adicionarFaixas(Faixa faixa){
         this.faixas.add(faixa);
     }
@@ -101,6 +87,8 @@ public class Album {
         System.out.println("nome fiaxa: " + faixaAlbum.getNome());
         System.out.println("duração faixa: " + faixaAlbum.getDuracao());
 
+
+
         //Retorna as faixas do album
         /*List<Faixa> faixasThriller = album.retornaFaixasAlbum();
         System.out.println("Faixas:");
@@ -109,11 +97,6 @@ public class Album {
         }*/
         return album;
     }
-
-    /*public List<Album> listarTodosAlbuns(){
-        //for(Album cont : )
-        return this.albuns;
-    }*/
 
     @Override
     public String toString() {
