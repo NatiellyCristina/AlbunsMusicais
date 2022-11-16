@@ -34,11 +34,6 @@ public class AlbumService implements IAlbumService{
 
     @Override
     public void excluirAlbum(int posicao) {
-        for(int i = 0; i < albuns.size(); i++){
-            this.albuns.get(posicao).setId(idAux);
-        }
-        --idAux;
-
         this.albuns.remove(posicao);
     }
 

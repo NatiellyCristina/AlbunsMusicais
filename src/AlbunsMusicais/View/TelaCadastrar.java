@@ -66,6 +66,7 @@ public class TelaCadastrar extends JFrame {
     private JTextField txtPesquisarId;
     private JButton btnPesquisar;
     private JLabel lblContAlbuns;
+    private JCheckBox chbHabilitar;
 
     IAlbumService IAS = getAlbumService();
     IFaixaService IFS = getFaixaService();
@@ -145,6 +146,8 @@ public class TelaCadastrar extends JFrame {
                             albumCont.getId(), albumCont.getNome(), albumCont.getData(), albumCont.getDuracao(), albumCont.getGenero()
                     });
                 }
+
+                lblContAlbuns.setText(String.valueOf(tblAlbuns.getRowCount()));
             }
         });
         btnAtualizar.addActionListener(new ActionListener() {
@@ -191,6 +194,17 @@ public class TelaCadastrar extends JFrame {
                 });
             }
         });
+        chbHabilitar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(chbHabilitar.isSelected()){
+                    txtPesquisarId.setEnabled(true);
+                }
+                else {
+                    txtPesquisarId.setEnabled(false);
+                }
+            }
+        });
     }
 
 
@@ -204,7 +218,6 @@ public class TelaCadastrar extends JFrame {
         txtDuracao.setText(tblAlbuns.getModel().getValueAt(posicao, 3).toString());
         /*txtNomeFaixa.setText(tblAlbuns.getModel().getValueAt(posicao, 4).toString());
         txtDuracaoFaixa.setText(tblAlbuns.getModel().getValueAt(posicao, 5).toString());*/
-
     }
 
     public Album getAlbum(){
