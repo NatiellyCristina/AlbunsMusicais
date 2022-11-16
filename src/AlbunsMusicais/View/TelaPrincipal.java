@@ -42,7 +42,7 @@ public class TelaPrincipal extends JFrame{
     public void configurarTela(){
         setContentPane(mainPanel);
         setTitle("Menu");
-        setSize(500, 500);
+        setSize(800, 800);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(true);

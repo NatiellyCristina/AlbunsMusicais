@@ -15,7 +15,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.ParseException;
-import java.util.List;
 
 public class TelaCadastrar extends JFrame {
     Album album = new Album();
@@ -63,6 +62,10 @@ public class TelaCadastrar extends JFrame {
     private JTable tblAlbuns;
     private JButton btnExcluir;
     private JButton btnAtualizar;
+    private JLabel lblId;
+    private JTextField txtPesquisarId;
+    private JButton btnPesquisar;
+    private JLabel lblContAlbuns;
 
     IAlbumService IAS = getAlbumService();
     IFaixaService IFS = getFaixaService();
@@ -119,10 +122,12 @@ public class TelaCadastrar extends JFrame {
                 for(Album albumCont : IAS.listarTodosAlbuns()){
                     //for(Faixa faixaCont: IFS.listarTodasFaixas()) {
                         modelo.addRow(new Object[]{
-                                albumCont.getNome(), albumCont.getData(), albumCont.getDuracao(), albumCont.getGenero(), //faixaCont.getNome(), faixaCont.getDuracao()
+                                albumCont.getId(), albumCont.getNome(), albumCont.getData(), albumCont.getDuracao(), albumCont.getGenero() //faixaCont.getNome(), faixaCont.getDuracao()
                         });
                     //}
                 }
+
+                lblContAlbuns.setText(String.valueOf(tblAlbuns.getRowCount()));
             }
         });
         btnExcluir.addActionListener(new ActionListener() {
@@ -134,9 +139,10 @@ public class TelaCadastrar extends JFrame {
 
                 DefaultTableModel modelo = (DefaultTableModel) tblAlbuns.getModel();
                 modelo.setNumRows(0);
+
                 for(Album albumCont : IAS.listarTodosAlbuns()){
                     modelo.addRow(new Object[]{
-                            albumCont.getNome(), albumCont.getData(), albumCont.getDuracao(), albumCont.getGenero()
+                            albumCont.getId(), albumCont.getNome(), albumCont.getData(), albumCont.getDuracao(), albumCont.getGenero()
                     });
                 }
             }
@@ -147,19 +153,19 @@ public class TelaCadastrar extends JFrame {
 
                 int posicao = tblAlbuns.getSelectedRow();
 
-                AlbumService albumService = new AlbumService();
-
-                albumService.albuns.get(posicao).setNome(txtNome.getText());
-                albumService.albuns.get(posicao).setData(txtAno.getText());
-                albumService.albuns.get(posicao).setDuracao(txtDuracao.getText());
-                albumService.albuns.get(posicao).setGenero((Genero)cbGenero.getSelectedItem());
-
                 DefaultTableModel modelo = (DefaultTableModel) tblAlbuns.getModel();
                 modelo.setNumRows(0);
 
+                String nome = txtNome.getText();
+                String data = txtAno.getText();
+                String duracao = txtDuracao.getText();
+                Genero genero = (Genero) cbGenero.getSelectedItem();
+
+                IAS.alterarAlbum(nome, data, duracao, genero, posicao);
+
                 for(Album albumCont : IAS.listarTodosAlbuns()){
                     modelo.addRow(new Object[]{
-                            albumCont.getNome(), albumCont.getData(), albumCont.getDuracao(), albumCont.getGenero()
+                            albumCont.getId(), albumCont.getNome(), albumCont.getData(), albumCont.getDuracao(), albumCont.getGenero()
                     });
                 }
             }
@@ -171,44 +177,34 @@ public class TelaCadastrar extends JFrame {
                 preencherCampos();
             }
         });
+        btnPesquisar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int id = Integer.parseInt(txtPesquisarId.getText());
+
+                DefaultTableModel modelo = (DefaultTableModel) tblAlbuns.getModel();
+                modelo.setNumRows(0);
+
+                Album albumCont = IAS.pesquisarAlbumId(id);
+                modelo.addRow(new Object[]{
+                        albumCont.getId(), albumCont.getNome(), albumCont.getData(), albumCont.getDuracao(), albumCont.getGenero()
+                });
+            }
+        });
     }
 
-    public void configTela() {
-        setContentPane(mainPanel);
-        setTitle("Cadastro");
-        setSize(500, 500);
-        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        setLocationRelativeTo(null);
-        setVisible(true);
-    }
 
-    public void adicionarGenero() {
-        Genero genero = new Genero();
-        Genero genero2 = new Genero();
-        Genero genero3 = new Genero();
-
-        genero.setCodigo(1);
-        genero.setDescricao("Pop");
-
-        genero2.setCodigo(2);
-        genero2.setDescricao("Rock");
-
-        genero3.setCodigo(3);
-        genero3.setDescricao("Eletronica");
-
-        cbGenero.addItem(genero);
-        cbGenero.addItem(genero2);
-        cbGenero.addItem(genero3);
-    }
 
     private void preencherCampos(){
         int posicao = tblAlbuns.getSelectedRow();
 
-        txtNome.setText(tblAlbuns.getModel().getValueAt(posicao, 0).toString());
-        txtAno.setText(tblAlbuns.getModel().getValueAt(posicao, 1).toString());
-        txtDuracao.setText(tblAlbuns.getModel().getValueAt(posicao, 2).toString());
+        txtPesquisarId.setText(tblAlbuns.getModel().getValueAt(posicao, 0).toString());
+        txtNome.setText(tblAlbuns.getModel().getValueAt(posicao, 1).toString());
+        txtAno.setText(tblAlbuns.getModel().getValueAt(posicao, 2).toString());
+        txtDuracao.setText(tblAlbuns.getModel().getValueAt(posicao, 3).toString());
         /*txtNomeFaixa.setText(tblAlbuns.getModel().getValueAt(posicao, 4).toString());
         txtDuracaoFaixa.setText(tblAlbuns.getModel().getValueAt(posicao, 5).toString());*/
+
     }
 
     public Album getAlbum(){
@@ -229,6 +225,8 @@ public class TelaCadastrar extends JFrame {
             album.setData(data);
             album.setDuracao(duracao);
             album.setGenero(genero);
+
+            JOptionPane.showMessageDialog(btnCadastrar, "Cadastro Realizado com sucesso!!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
 
             return album;
         }
@@ -257,7 +255,7 @@ public class TelaCadastrar extends JFrame {
     private void criarTabela(){
         tblAlbuns.setModel(new DefaultTableModel(
                 null,
-                new String[]{"Nome", "Data", "Duração", "Genero"}
+                new String[]{"Id", "Nome", "Data", "Duração", "Genero"}
         ));
     }
 
@@ -267,6 +265,34 @@ public class TelaCadastrar extends JFrame {
 
     private static  IFaixaService getFaixaService(){
         return new FaixaService();
+    }
+
+    public void configTela() {
+        setContentPane(mainPanel);
+        setTitle("Cadastro");
+        setSize(800, 800);
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null);
+        setVisible(true);
+    }
+
+    public void adicionarGenero() {
+        Genero genero = new Genero();
+        Genero genero2 = new Genero();
+        Genero genero3 = new Genero();
+
+        genero.setCodigo(1);
+        genero.setDescricao("Pop");
+
+        genero2.setCodigo(2);
+        genero2.setDescricao("Rock");
+
+        genero3.setCodigo(3);
+        genero3.setDescricao("Eletronica");
+
+        cbGenero.addItem(genero);
+        cbGenero.addItem(genero2);
+        cbGenero.addItem(genero3);
     }
 
     public static void main(String[] args) {
