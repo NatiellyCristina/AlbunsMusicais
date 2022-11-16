@@ -115,6 +115,8 @@ public class TelaCadastrar extends JFrame {
                 DefaultTableModel modelo = (DefaultTableModel) tblAlbuns.getModel();
                 modelo.setNumRows(0);
 
+                Album album = new Album();
+
                 /*while (modelo.getRowCount() > 0) {
                     modelo.removeRow(0);
                 }*/
