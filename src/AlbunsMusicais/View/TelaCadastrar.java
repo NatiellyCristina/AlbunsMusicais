@@ -10,16 +10,15 @@ import service.IFaixaService;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.ParseException;
+import java.util.Iterator;
 
 public class TelaCadastrar extends JFrame {
-    Album album = new Album();
-    Faixa faixaAlbum = new Faixa();
-    AlbumService albumService = new AlbumService();
     Mascaras mascaras = new Mascaras();
     private JTextField txtNome;
     private JFormattedTextField txtDuracao;
@@ -33,23 +32,12 @@ public class TelaCadastrar extends JFrame {
     private JButton btnCadastrar;
     private JButton btnLimpar;
     private JPanel mainPanel;
-    private JTextField txtNomeFaixa;
     private JLabel lblNome;
     private JLabel lblAno;
     private JLabel lblDuracao;
     private JLabel lblGenero;
-    private JLabel lblFaixa;
-    private JFormattedTextField txtDuracaoFaixa;
-    {
-        try {
-            new JFormattedTextField(mascaras.mascaraDuracao(txtDuracaoFaixa));
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
-    }
     private JButton btnVisualizar;
     private JComboBox cbGenero;
-    private JButton btnVoltar;
     private JFormattedTextField txtAno;
     {
         try {
@@ -58,7 +46,7 @@ public class TelaCadastrar extends JFrame {
             throw new RuntimeException(e);
         }
     }
-    private JLabel lblDurFaixa;
+
     private JTable tblAlbuns;
     private JButton btnExcluir;
     private JButton btnAtualizar;
@@ -69,9 +57,7 @@ public class TelaCadastrar extends JFrame {
     private JCheckBox chbHabilitar;
 
     IAlbumService IAS = getAlbumService();
-    IFaixaService IFS = getFaixaService();
 
-    private int idAux = 0;
     public TelaCadastrar() {
         configTela();
 
@@ -86,19 +72,16 @@ public class TelaCadastrar extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Album album = getAlbum();
-                //Faixa faixa = getFaixa();
 
                 IAS.inserirAlbum(album);
-                //IFS.inserirFaixa(faixa);
 
                 txtNome.setText("");
                 txtAno.setText("");
                 txtDuracao.setText("");
                 cbGenero.setSelectedIndex(-1);
-                txtNomeFaixa.setText("");
-                txtDuracaoFaixa.setText("");
             }
         });
+
         btnLimpar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -106,37 +89,35 @@ public class TelaCadastrar extends JFrame {
                 txtAno.setText("");
                 txtDuracao.setText("");
                 cbGenero.setSelectedIndex(-1);
-                txtNomeFaixa.setText("");
-                txtDuracaoFaixa.setText("");
             }
         });
+
         btnVisualizar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 DefaultTableModel modelo = (DefaultTableModel) tblAlbuns.getModel();
                 modelo.setNumRows(0);
 
-                /*while (modelo.getRowCount() > 0) {
-                    modelo.removeRow(0);
-                }*/
-
                 for(Album albumCont : IAS.listarTodosAlbuns()){
-                    //for(Faixa faixaCont: IFS.listarTodasFaixas()) {
-                        modelo.addRow(new Object[]{
-                                albumCont.getId(), albumCont.getNome(), albumCont.getData(), albumCont.getDuracao(), albumCont.getGenero() //faixaCont.getNome(), faixaCont.getDuracao()
-                        });
-                    //}
+                    modelo.addRow(new Object[]{
+                            albumCont.getId(), albumCont.getNome(), albumCont.getData(), albumCont.getDuracao(), albumCont.getGenero()
+                    });
                 }
 
                 lblContAlbuns.setText(String.valueOf(tblAlbuns.getRowCount()));
             }
         });
+
         btnExcluir.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int posicao = tblAlbuns.getSelectedRow();
 
-                IAS.excluirAlbum(posicao);
+                int opcao = JOptionPane.showConfirmDialog(null, "Deseja mesmo excluir o Album?");
+
+                if(opcao == JOptionPane.YES_OPTION){
+                    IAS.excluirAlbum(posicao);
+                }
 
                 DefaultTableModel modelo = (DefaultTableModel) tblAlbuns.getModel();
                 modelo.setNumRows(0);
@@ -150,6 +131,7 @@ public class TelaCadastrar extends JFrame {
                 lblContAlbuns.setText(String.valueOf(tblAlbuns.getRowCount()));
             }
         });
+
         btnAtualizar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -164,7 +146,11 @@ public class TelaCadastrar extends JFrame {
                 String duracao = txtDuracao.getText();
                 Genero genero = (Genero) cbGenero.getSelectedItem();
 
-                IAS.alterarAlbum(nome, data, duracao, genero, posicao);
+                int opcao = JOptionPane.showConfirmDialog(null, "Deseja mesmo Alterar?");
+
+                if(opcao == JOptionPane.YES_OPTION){
+                    IAS.alterarAlbum(nome, data, duracao, genero, posicao);
+                }
 
                 for(Album albumCont : IAS.listarTodosAlbuns()){
                     modelo.addRow(new Object[]{
@@ -173,6 +159,7 @@ public class TelaCadastrar extends JFrame {
                 }
             }
         });
+
         tblAlbuns.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -199,9 +186,11 @@ public class TelaCadastrar extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 if(chbHabilitar.isSelected()){
                     txtPesquisarId.setEnabled(true);
+                    btnPesquisar.setEnabled(true);
                 }
                 else {
                     txtPesquisarId.setEnabled(false);
+                    btnPesquisar.setEnabled(false);
                 }
             }
         });
@@ -212,12 +201,9 @@ public class TelaCadastrar extends JFrame {
     private void preencherCampos(){
         int posicao = tblAlbuns.getSelectedRow();
 
-        txtPesquisarId.setText(tblAlbuns.getModel().getValueAt(posicao, 0).toString());
         txtNome.setText(tblAlbuns.getModel().getValueAt(posicao, 1).toString());
         txtAno.setText(tblAlbuns.getModel().getValueAt(posicao, 2).toString());
         txtDuracao.setText(tblAlbuns.getModel().getValueAt(posicao, 3).toString());
-        /*txtNomeFaixa.setText(tblAlbuns.getModel().getValueAt(posicao, 4).toString());
-        txtDuracaoFaixa.setText(tblAlbuns.getModel().getValueAt(posicao, 5).toString());*/
     }
 
     public Album getAlbum(){
@@ -245,26 +231,6 @@ public class TelaCadastrar extends JFrame {
         }
     }
 
-    /*public Faixa getFaixa(){
-        Faixa faixa = new Faixa();
-
-        String faixaNome = txtNomeFaixa.getText();
-        String faixaDuracao = txtDuracaoFaixa.getText();
-
-        if (faixaNome.isEmpty() || faixaDuracao.isEmpty()) {
-            JOptionPane.showMessageDialog(btnCadastrar, "Não é possivel deixar caixas em branco", "Tente novamente", JOptionPane.ERROR_MESSAGE);
-            return null;
-        }
-        else{
-            faixa.setNome(faixaNome);
-            faixa.setDuracao(faixaDuracao);
-
-            JOptionPane.showMessageDialog(btnCadastrar, "Cadastro Realizado com sucesso!!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-
-            return faixa;
-        }
-    }*/
-
     private void criarTabela(){
         tblAlbuns.setModel(new DefaultTableModel(
                 null,
@@ -274,10 +240,6 @@ public class TelaCadastrar extends JFrame {
 
     public static IAlbumService getAlbumService(){
         return new AlbumService();
-    }
-
-    private static  IFaixaService getFaixaService(){
-        return new FaixaService();
     }
 
     public void configTela() {
