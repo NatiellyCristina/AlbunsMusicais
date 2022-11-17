@@ -63,7 +63,6 @@ public class TelaCadastrar extends JFrame {
 
         criarTabela();
 
-
         adicionarGenero();
 
         cbGenero.setSelectedIndex(-1);
@@ -146,12 +145,16 @@ public class TelaCadastrar extends JFrame {
                 String duracao = txtDuracao.getText();
                 Genero genero = (Genero) cbGenero.getSelectedItem();
 
-                int opcao = JOptionPane.showConfirmDialog(null, "Deseja mesmo Alterar?");
-
-                if(opcao == JOptionPane.YES_OPTION){
-                    IAS.alterarAlbum(nome, data, duracao, genero, posicao);
+                if(nome.isEmpty() || data.isEmpty() || duracao.isEmpty() || genero == null){
+                    JOptionPane.showMessageDialog(null, "Não é possivel deixar caixas em branco", "Tente novamente", JOptionPane.ERROR_MESSAGE);
                 }
+                else{
+                    int opcao = JOptionPane.showConfirmDialog(null, "Deseja mesmo Alterar?");
 
+                    if(opcao == JOptionPane.YES_OPTION){
+                        IAS.alterarAlbum(nome, data, duracao, genero, posicao);
+                    }
+                }
                 for(Album albumCont : IAS.listarTodosAlbuns()){
                     modelo.addRow(new Object[]{
                             albumCont.getId(), albumCont.getNome(), albumCont.getData(), albumCont.getDuracao(), albumCont.getGenero()
@@ -167,6 +170,7 @@ public class TelaCadastrar extends JFrame {
                 preencherCampos();
             }
         });
+
         btnPesquisar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -181,6 +185,7 @@ public class TelaCadastrar extends JFrame {
                 });
             }
         });
+
         chbHabilitar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -195,8 +200,6 @@ public class TelaCadastrar extends JFrame {
             }
         });
     }
-
-
 
     private void preencherCampos(){
         int posicao = tblAlbuns.getSelectedRow();
@@ -215,7 +218,7 @@ public class TelaCadastrar extends JFrame {
         String duracao = txtDuracao.getText();
         Genero genero = (Genero) cbGenero.getSelectedItem();
 
-        if (nome.isEmpty() || data.isEmpty() || duracao.isEmpty()) {
+        if (nome.isEmpty() || data.isEmpty() || duracao.isEmpty() || genero == null) {
             JOptionPane.showMessageDialog(btnCadastrar, "Não é possivel deixar caixas em branco", "Tente novamente", JOptionPane.ERROR_MESSAGE);
             return null;
         }
