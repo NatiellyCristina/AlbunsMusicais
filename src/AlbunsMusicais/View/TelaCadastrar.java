@@ -1,22 +1,17 @@
 package AlbunsMusicais.View;
 
 import AlbunsMusicais.Model.Album;
-import AlbunsMusicais.Model.Faixa;
 import AlbunsMusicais.Model.Genero;
 import service.AlbumService;
-import service.FaixaService;
 import service.IAlbumService;
-import service.IFaixaService;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.ParseException;
-import java.util.Iterator;
 
 public class TelaCadastrar extends JFrame {
     Mascaras mascaras = new Mascaras();
@@ -58,6 +53,8 @@ public class TelaCadastrar extends JFrame {
 
     IAlbumService IAS = getAlbumService();
 
+    int qtnAlbuns = 0;
+
     public TelaCadastrar() {
         configTela();
 
@@ -73,6 +70,10 @@ public class TelaCadastrar extends JFrame {
                 Album album = getAlbum();
 
                 IAS.inserirAlbum(album);
+
+                qtnAlbuns++;
+
+                lblContAlbuns.setText(String.valueOf(qtnAlbuns));
 
                 txtNome.setText("");
                 txtAno.setText("");
@@ -102,8 +103,6 @@ public class TelaCadastrar extends JFrame {
                             albumCont.getId(), albumCont.getNome(), albumCont.getData(), albumCont.getDuracao(), albumCont.getGenero()
                     });
                 }
-
-                lblContAlbuns.setText(String.valueOf(tblAlbuns.getRowCount()));
             }
         });
 
@@ -116,6 +115,10 @@ public class TelaCadastrar extends JFrame {
 
                 if(opcao == JOptionPane.YES_OPTION){
                     IAS.excluirAlbum(posicao);
+
+                    qtnAlbuns--;
+
+                    lblContAlbuns.setText(String.valueOf(qtnAlbuns));
                 }
 
                 DefaultTableModel modelo = (DefaultTableModel) tblAlbuns.getModel();
@@ -126,8 +129,6 @@ public class TelaCadastrar extends JFrame {
                             albumCont.getId(), albumCont.getNome(), albumCont.getData(), albumCont.getDuracao(), albumCont.getGenero()
                     });
                 }
-
-                lblContAlbuns.setText(String.valueOf(tblAlbuns.getRowCount()));
             }
         });
 
